@@ -1,0 +1,26 @@
+# ── Core Framework ──
+fastapi
+uvicorn[standard]
+python-multipart
+sse-starlette
+
+# ── Embeddings (API-based) ──
+numpy
+httpx
+
+# ── Vector Database ──
+chromadb
+
+# ── Document Processing ──
+PyMuPDF
+python-docx
+
+# ── LLM ──
+groq
+
+# ── Utilities ──
+pydantic
+pydantic-settings
+python-dotenv
+structlog
+httpx

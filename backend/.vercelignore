@@ -1,0 +1,14 @@
+__pycache__
+*.pyc
+.pytest_cache
+tests/
+training/
+data/documents.json
+data/chromadb/
+data/images/
+data/uploads/
+.env
+.env.local
+*.egg-info
+.venv
+venv

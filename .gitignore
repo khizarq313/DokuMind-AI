@@ -1,0 +1,142 @@
+# ==============================================================================
+# DocuMind Project .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Dependencies
+# ------------------------------------------------------------------------------
+# Node.js
+node_modules/
+.pnp
+.pnp.js
+
+# Python Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# ------------------------------------------------------------------------------
+# Build artifacts & Testing
+# ------------------------------------------------------------------------------
+# Node.js / Web
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+coverage/
+.nyc_output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ------------------------------------------------------------------------------
+# Environment Variables & Configuration
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.template
+
+# ------------------------------------------------------------------------------
+# Data, ML, Logs & Databases
+# ------------------------------------------------------------------------------
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Databases, Storage, and Vector Stores
+data/
+backend/data/
+db/
+sqlite/
+*.sqlite3
+chroma/
+chromadb/
+
+# ML Artifacts
+models/
+checkpoints/
+mlruns/
+mlartifacts/
+*.pt
+*.pth
+*.h5
+*.onnx
+
+# ------------------------------------------------------------------------------
+# IDEs & OS Files
+# ------------------------------------------------------------------------------
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains / IntelliJ / PyCharm
+.idea/
+*.iml
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editors
+*.swp
+*.swo
+*~
+
+.github/workflows/ci.yml
+
+# MLflow database (runtime artifact)
+*.db
+backend/*.db
+
+# Vite dev server logs
+frontend/vite-dev.*
+
+# ML model weights - yes, exclude
+models/
+checkpoints/
+*.pt
+*.pth
+
+# BUT keep the Python source models package
+!backend/app/models/
+!backend/app/models/**

@@ -1,0 +1,123 @@
+# ═══════════════════════════════════════════════════════
+#  DocuMind — Docker Compose Orchestration
+#  Brings up: API, ChromaDB, MLflow, Frontend
+# ═══════════════════════════════════════════════════════
+
+version: "3.9"
+
+services:
+  # ── Backend API ──
+  backend:
+    build:
+      context: ./backend
+      target: production
+    container_name: documind-api
+    ports:
+      - "8080:8080"
+    environment:
+      - BACKEND_HOST=0.0.0.0
+      - BACKEND_PORT=8080
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8000
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - MLFLOW_EXPERIMENT_NAME=documind-rag
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - GROQ_MODEL=${GROQ_MODEL:-llama3-8b-8192}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - EMBEDDING_DIM=${EMBEDDING_DIM:-512}
+      - CHUNK_SIZE=${CHUNK_SIZE:-512}
+      - CHUNK_OVERLAP=${CHUNK_OVERLAP:-64}
+    volumes:
+      - documind-data:/app/data
+      - documind-checkpoints:/app/checkpoints
+    depends_on:
+      chromadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    restart: unless-stopped
+    networks:
+      - documind
+
+  # ── ChromaDB Vector Store ──
+  chromadb:
+    image: chromadb/chroma:0.6.3
+    container_name: documind-chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chromadb-data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - documind
+
+  # ── MLflow Tracking Server ──
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.19.0
+    container_name: documind-mlflow
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow-data:/mlflow
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:///mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped
+    networks:
+      - documind
+
+  # ── Frontend ──
+  frontend:
+    build:
+      context: ./frontend
+      target: production
+    container_name: documind-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - documind
+
+volumes:
+  documind-data:
+    driver: local
+  documind-checkpoints:
+    driver: local
+  chromadb-data:
+    driver: local
+  mlflow-data:
+    driver: local
+
+networks:
+  documind:
+    driver: bridge

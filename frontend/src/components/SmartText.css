@@ -1,0 +1,17 @@
+.smart-link {
+  color: var(--primary-light, #d2bbff);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--primary-light, #d2bbff);
+  transition: color 0.15s, border-color 0.15s;
+  word-break: break-all;
+}
+
+.smart-link:hover {
+  color: var(--secondary, #4cd7f6);
+  border-color: var(--secondary, #4cd7f6);
+}
+
+.smart-link-email::before { content: '✉ '; font-size: 0.85em; }
+.smart-link-phone::before { content: '☎ '; font-size: 0.85em; }
+.smart-link-linkedin::before { content: 'in '; font-weight: 700; font-size: 0.85em; }
+.smart-link-github::before { content: '⌘ '; font-size: 0.85em; }

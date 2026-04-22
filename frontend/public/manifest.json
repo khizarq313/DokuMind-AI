@@ -1,0 +1,47 @@
+{
+  "name": "DocuMind AI",
+  "short_name": "DocuMind",
+  "description": "AI-powered document intelligence. Upload PDFs, get grounded answers and structured summaries with citations.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#7c3aed",
+  "lang": "en",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Workspace",
+      "short_name": "Chat",
+      "url": "/",
+      "description": "Open the document chat workspace"
+    },
+    {
+      "name": "Documents",
+      "short_name": "Docs",
+      "url": "/documents",
+      "description": "Browse your document library"
+    },
+    {
+      "name": "Analytics",
+      "short_name": "Stats",
+      "url": "/analytics",
+      "description": "View query analytics"
+    }
+  ]
+}
